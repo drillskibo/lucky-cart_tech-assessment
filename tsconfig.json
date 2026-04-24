@@ -6,7 +6,8 @@
     "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./app/*"]
+      "@/*": ["./app/*"],
+      "@src/*": ["./src/*"]
     },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
