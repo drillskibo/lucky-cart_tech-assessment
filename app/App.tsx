@@ -1,20 +1,42 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { EligibilityService } from '../src/eligibility.service';
 import type { Cart, Criteria } from '../src/types';
 import { loadDefaultCart, loadDefaultCriteria } from './fixtures';
+import {
+  loadInitialCart,
+  loadInitialCriteria,
+  resetPersistedData,
+  saveCart,
+  saveCriteria,
+} from './persistence';
 
 import { CartPanel } from '@/components/cart/cart-panel';
 import { CriteriaPanel } from '@/components/criteria/criteria-panel';
 import { Logo } from '@/components/shared/logo';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 
 const service = new EligibilityService();
 
 export default function App() {
-  const [cart, setCart] = useState<Cart>(() => loadDefaultCart());
-  const [criteria, setCriteria] = useState<Criteria>(() => loadDefaultCriteria());
+  const [cart, setCart] = useState<Cart>(() => loadInitialCart());
+  const [criteria, setCriteria] = useState<Criteria>(() => loadInitialCriteria());
   const isEligible = useMemo(() => service.isEligible(cart, criteria), [cart, criteria]);
+
+  useEffect(() => {
+    saveCart(cart);
+  }, [cart]);
+
+  useEffect(() => {
+    saveCriteria(criteria);
+  }, [criteria]);
+
+  function handleReset() {
+    resetPersistedData();
+    setCart(loadDefaultCart());
+    setCriteria(loadDefaultCriteria());
+  }
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
@@ -24,7 +46,7 @@ export default function App() {
             <Logo className="h-8 w-auto shrink-0 text-foreground md:h-9" />
             <CardTitle className="text-3xl">Eligibility Checker</CardTitle>
           </div>
-          <div>
+          <div className="flex items-center gap-3">
             <Badge
               variant={isEligible ? 'success' : 'destructive'}
               className="px-4 py-1.5 text-sm"
@@ -32,6 +54,9 @@ export default function App() {
             >
               {isEligible ? 'Eligible' : 'Not eligible'}
             </Badge>
+            <Button variant="outline" onClick={handleReset}>
+              Reset data
+            </Button>
           </div>
         </CardHeader>
       </Card>
