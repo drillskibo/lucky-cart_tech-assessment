@@ -1,9 +1,4 @@
-import type {
-  Criteria,
-  CriteriaCondition,
-  OperatorCondition,
-  Primitive,
-} from '@src/types';
+import type { Criteria, CriteriaCondition, OperatorCondition, Primitive } from '@src/types';
 import { RiDeleteBinLine } from '@remixicon/react';
 import { PrimitiveValueInput } from '@/components/editor-controls';
 import {
@@ -43,10 +38,7 @@ function InListEditor({
   return (
     <div className="space-y-2">
       {values.map((value, index) => (
-        <div
-          key={`${index}-${String(value)}`}
-          className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]"
-        >
+        <div key={index} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
           <PrimitiveValueInput
             value={value}
             onChange={(nextValue) =>
@@ -84,7 +76,7 @@ function LogicalGroupEditor({
   return (
     <div className="space-y-2">
       {entries.map(([operator, operatorValue]) => (
-        <div key={operator} className="grid gap-2 lg:grid-cols-[3.5rem_minmax(0,1fr)_auto]">
+        <div key={operator} className="grid gap-2 grid-cols-[3.5rem_minmax(0,1fr)_auto]">
           <NativeSelect
             value={operator}
             onChange={(event) =>
@@ -118,7 +110,7 @@ function LogicalGroupEditor({
           <Button
             variant="destructive"
             size="icon-sm"
-            className="self-start"
+            className="self-center"
             onClick={() => onChange(removeOperator(value, operator))}
             aria-label={`Remove ${operator} condition`}
           >
@@ -145,7 +137,7 @@ function ConditionEditor({
   const operatorGroup = getOperatorGroup(value);
 
   return (
-    <div className="grid gap-2 lg:grid-cols-[4rem_minmax(0,1fr)]">
+    <div className="grid grid-cols-[4rem_minmax(0,1fr)] gap-2">
       <NativeSelect
         value={selection}
         onChange={(event) =>
@@ -198,31 +190,56 @@ export function CriteriaEditor({ value, onChange, onAddCriteria }: CriteriaEdito
       </div>
 
       {Object.entries(value).map(([path, condition], index) => (
-        <div key={`${path}-${index}`} className="rounded-lg border border-dashed p-3">
-          <div className="grid items-start gap-2 xl:grid-cols-[auto_minmax(0,1fr)_minmax(0,1.4fr)]">
+        <div key={index} className="rounded-lg border border-dashed p-3">
+          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2">
             <Button
               variant="destructive"
               size="icon-sm"
-              className="self-start mt-1"
+              className="mt-1 self-start shrink-0"
               onClick={() => onChange(removeCriterion(value, path))}
               aria-label={`Remove criterion ${path || index + 1}`}
             >
               <RiDeleteBinLine />
             </Button>
-            <Input
-              value={path}
-              onChange={(event) =>
-                onChange(renameCriterion(value, path, event.target.value, condition))
-              }
-              placeholder="Cart path"
-            />
 
-            <ConditionEditor
-              value={condition}
-              onChange={(nextCondition) =>
-                onChange(renameCriterion(value, path, path, nextCondition))
-              }
-            />
+            <div className="min-w-0">
+              <div className="space-y-2 lg:hidden">
+                <Input
+                  className="min-w-0"
+                  value={path}
+                  onChange={(event) =>
+                    onChange(renameCriterion(value, path, event.target.value, condition))
+                  }
+                  placeholder="Cart path"
+                />
+
+                <ConditionEditor
+                  value={condition}
+                  onChange={(nextCondition) =>
+                    onChange(renameCriterion(value, path, path, nextCondition))
+                  }
+                />
+              </div>
+
+              <div className="hidden min-w-0 items-start gap-2 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
+                <Input
+                  className="min-w-0"
+                  value={path}
+                  onChange={(event) =>
+                    onChange(renameCriterion(value, path, event.target.value, condition))
+                  }
+                  placeholder="Cart path"
+                />
+                <div className="min-w-0">
+                  <ConditionEditor
+                    value={condition}
+                    onChange={(nextCondition) =>
+                      onChange(renameCriterion(value, path, path, nextCondition))
+                    }
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       ))}

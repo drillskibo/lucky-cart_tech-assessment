@@ -85,9 +85,9 @@ function ProductEditor({
         </div>
       </CardHeader>
       <CardContent className="space-y-5 md:space-y-3">
-        {Object.entries(product).map(([key, rawValue]) => (
+        {Object.entries(product).map(([key, rawValue], fieldIndex) => (
           <ObjectFieldRow
-            key={`${key}-${index}`}
+            key={`${index}-${fieldIndex}`}
             fieldKey={key}
             value={(rawValue ?? '') as Primitive}
             onKeyChange={(nextKey) =>
@@ -114,9 +114,9 @@ export function CartEditor({ value, onChange, onAddField }: CartEditorProps) {
         </Button>
       </div>
       <div className="space-y-5 md:space-y-3">
-        {Object.entries(fields).map(([key, rawValue]) => (
+        {Object.entries(fields).map(([key, rawValue], fieldIndex) => (
           <ObjectFieldRow
-            key={key}
+            key={fieldIndex}
             fieldKey={key}
             value={(rawValue ?? '') as Primitive}
             onKeyChange={(nextKey) =>
@@ -155,7 +155,7 @@ export function CartEditor({ value, onChange, onAddField }: CartEditorProps) {
         <div className="space-y-4">
           {products.map((product, index) => (
             <ProductEditor
-              key={`${index}-${Object.keys(product).join('-')}`}
+              key={index}
               product={product}
               index={index}
               onChange={(nextProduct) =>

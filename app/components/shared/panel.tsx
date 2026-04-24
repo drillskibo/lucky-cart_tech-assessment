@@ -21,12 +21,12 @@ export function Panel({
 }: PanelProps) {
   return (
     <Card className={className}>
-      <CardHeader className="flex flex-row items-center justify-between gap-3 space-y-0">
-        <div className="flex items-center gap-2">
+      <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-2">
           <CardTitle>{title}</CardTitle>
           {action}
         </div>
-        {headerAction}
+        {headerAction ? <div className="self-start sm:self-auto">{headerAction}</div> : null}
       </CardHeader>
       <CardContent className={contentClassName}>{children}</CardContent>
     </Card>

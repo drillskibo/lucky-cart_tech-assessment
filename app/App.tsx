@@ -41,12 +41,12 @@ export default function App() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
       <Card className="mb-6">
-        <CardHeader className="gap-4">
-          <div className="flex flex-col gap-8 md:gap-3 md:flex-row md:items-center">
+        <CardHeader className="gap-5 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-8 md:min-w-0 md:flex-row md:items-center md:gap-3">
             <Logo className="h-8 w-auto shrink-0 text-foreground md:h-9" />
-            <CardTitle className="text-3xl">Eligibility Checker</CardTitle>
+            <CardTitle className="text-3xl md:whitespace-nowrap">Eligibility Checker</CardTitle>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 self-start md:shrink-0 md:self-auto">
             <Badge
               variant={isEligible ? 'success' : 'destructive'}
               className="px-4 py-1.5 text-sm"
