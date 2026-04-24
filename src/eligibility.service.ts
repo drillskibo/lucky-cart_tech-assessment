@@ -1,11 +1,4 @@
-type Primitive = string | number | boolean | null;
-type ComparisonOperator = 'gt' | 'lt' | 'gte' | 'lte';
-type CriteriaCondition =
-  | Primitive
-  | {
-    [key in ComparisonOperator | 'in' | 'and' | 'or']?: unknown;
-  };
-type Criteria = Record<string, CriteriaCondition>;
+import type { ComparisonOperator, Criteria, CriteriaCondition } from './types';
 
 type ConditionObject = Record<string, unknown> & {
   and?: Record<string, unknown>;
