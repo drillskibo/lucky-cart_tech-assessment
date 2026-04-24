@@ -1,4 +1,4 @@
-import type { Cart, CartProduct, JsonObject, Primitive } from '@src/types';
+import type { Cart, JsonObject, Primitive } from '@src/types';
 import { RiDeleteBinLine } from '@remixicon/react';
 import { getUniqueKey } from '@/components/editor-controls';
 import { ObjectFieldRow } from '@/components/shared/object-field-row';
@@ -61,9 +61,9 @@ function ProductEditor({
   onChange,
   onRemove,
 }: {
-  product: CartProduct;
+  product: JsonObject;
   index: number;
-  onChange: (value: CartProduct) => void;
+  onChange: (value: JsonObject) => void;
   onRemove: () => void;
 }) {
   return (

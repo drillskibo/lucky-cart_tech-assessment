@@ -3,12 +3,11 @@ export type JsonValue = Primitive | JsonObject | JsonArray;
 export interface JsonObject {
   [key: string]: JsonValue | undefined;
 }
-export interface JsonArray extends Array<JsonValue> { }
+export type JsonArray = JsonValue[];
 
-export interface CartProduct extends JsonObject { }
-export interface Cart extends JsonObject {
-  products?: CartProduct[];
-}
+export type Cart = JsonObject & {
+  products?: JsonObject[];
+};
 
 export type ComparisonOperator = 'gt' | 'lt' | 'gte' | 'lte';
 export type OperatorCondition = Partial<Record<ComparisonOperator, Primitive>> & {

@@ -76,7 +76,7 @@ function LogicalGroupEditor({
   return (
     <div className="space-y-2">
       {entries.map(([operator, operatorValue]) => (
-        <div key={operator} className="grid gap-2 grid-cols-[3.5rem_minmax(0,1fr)_auto]">
+        <div key={operator} className="grid grid-cols-[3.5rem_minmax(0,1fr)_auto] gap-2">
           <NativeSelect
             value={operator}
             onChange={(event) =>
@@ -195,7 +195,7 @@ export function CriteriaEditor({ value, onChange, onAddCriteria }: CriteriaEdito
             <Button
               variant="destructive"
               size="icon-sm"
-              className="mt-1 self-start shrink-0"
+              className="mt-1 shrink-0 self-start"
               onClick={() => onChange(removeCriterion(value, path))}
               aria-label={`Remove criterion ${path || index + 1}`}
             >
