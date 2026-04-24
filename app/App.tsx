@@ -3,16 +3,17 @@ import { EligibilityService } from '../src/eligibility.service';
 import type { Cart, Criteria } from '../src/types';
 import { loadDefaultCart, loadDefaultCriteria } from './fixtures';
 
-import { JsonPanel } from '@/components/json-panel';
-import { Logo } from '@/components/logo';
+import { CartPanel } from '@/components/cart/cart-panel';
+import { CriteriaPanel } from '@/components/criteria/criteria-panel';
+import { Logo } from '@/components/shared/logo';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 
 const service = new EligibilityService();
 
 export default function App() {
-  const [cart] = useState<Cart>(() => loadDefaultCart());
-  const [criteria] = useState<Criteria>(() => loadDefaultCriteria());
+  const [cart, setCart] = useState<Cart>(() => loadDefaultCart());
+  const [criteria, setCriteria] = useState<Criteria>(() => loadDefaultCriteria());
   const isEligible = useMemo(() => service.isEligible(cart, criteria), [cart, criteria]);
 
   return (
@@ -36,8 +37,8 @@ export default function App() {
       </Card>
 
       <section className="grid gap-6 md:grid-cols-2">
-        <JsonPanel title="Cart" value={cart} />
-        <JsonPanel title="Criteria" value={criteria} />
+        <CartPanel value={cart} onChange={setCart} />
+        <CriteriaPanel value={criteria} onChange={setCriteria} />
       </section>
     </main>
   );
