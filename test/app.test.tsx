@@ -7,7 +7,10 @@ describe('App', () => {
   it('renders the app shell', () => {
     render(<App />);
 
-    expect(screen.getByText('Lucky Cart')).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'Answer GUI' })).toBeTruthy();
+    expect(screen.getByLabelText('Lucky Cart')).toBeTruthy();
+    expect(screen.getByText('Eligibility Checker')).toBeTruthy();
+    expect(screen.getByText('Cart')).toBeTruthy();
+    expect(screen.getByText('Criteria')).toBeTruthy();
+    expect(screen.getByTestId('eligibility-result').textContent).toContain('Eligible');
   });
 });
