@@ -6,7 +6,6 @@ import { Logo } from '@/components/shared/logo';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
-
 import { EligibilityService } from '@src/eligibility.service';
 
 import { loadDefaultCart, loadDefaultCriteria } from './fixtures';

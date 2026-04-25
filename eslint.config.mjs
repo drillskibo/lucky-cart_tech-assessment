@@ -1,13 +1,11 @@
 import js from '@eslint/js';
 import globals from 'globals';
+import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import importPlugin from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactHooks from 'eslint-plugin-react-hooks';
-import tailwindcss from 'eslint-plugin-tailwindcss';
+import vitest from 'eslint-plugin-vitest';
 import tseslint from 'typescript-eslint';
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const rootDir = dirname(fileURLToPath(import.meta.url));
 
 export default tseslint.config(
   {
@@ -26,16 +24,16 @@ export default tseslint.config(
       },
     },
     plugins: {
+      'better-tailwindcss': betterTailwindcss,
       'react-hooks': reactHooks,
-      tailwindcss,
     },
     settings: {
       'import/resolver': {
         typescript: true,
         node: true,
       },
-      tailwindcss: {
-        cssConfigPath: `${rootDir}/app/styles.css`,
+      'better-tailwindcss': {
+        entryPoint: 'app/styles.css',
       },
     },
     rules: {
@@ -48,8 +46,10 @@ export default tseslint.config(
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'type'],
         },
       ],
-      'tailwindcss/classnames-order': 'warn',
-      'tailwindcss/no-contradicting-classname': 'error',
+      'better-tailwindcss/enforce-consistent-class-order': 'warn',
+      'better-tailwindcss/no-duplicate-classes': 'warn',
+      'better-tailwindcss/no-unnecessary-whitespace': 'warn',
+      'better-tailwindcss/no-conflicting-classes': 'error',
     },
   },
   {
@@ -59,9 +59,32 @@ export default tseslint.config(
     },
   },
   {
+    files: ['**/*.{tsx,jsx}'],
+    ...jsxA11y.flatConfigs.recommended,
+    languageOptions: {
+      ...jsxA11y.flatConfigs.recommended.languageOptions,
+      globals: globals.browser,
+    },
+  },
+  {
     files: ['src/**/*.{ts,tsx}', 'test/**/*.{ts,tsx}', 'vite.config.ts'],
     languageOptions: {
       globals: globals.node,
+    },
+  },
+  {
+    files: ['test/**/*.{ts,tsx}'],
+    plugins: {
+      vitest,
+    },
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...vitest.environments.env.globals,
+      },
+    },
+    rules: {
+      ...vitest.configs.recommended.rules,
     },
   },
 );
