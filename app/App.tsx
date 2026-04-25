@@ -63,7 +63,7 @@ export default function App() {
         </CardHeader>
       </Card>
 
-      <section className="grid gap-6 md:grid-cols-2">
+      <section className="grid items-stretch gap-6 md:grid-cols-2">
         <CartPanel value={cart} onChange={setCart} />
         <CriteriaPanel value={criteria} onChange={setCriteria} />
       </section>

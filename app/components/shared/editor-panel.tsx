@@ -71,6 +71,8 @@ export function EditorPanel<T>({
     }
   }
 
+  const resolvedContentClassName = showRawJson ? 'flex min-h-0 flex-col' : contentClassName;
+
   return (
     <Panel
       title={title}
@@ -80,7 +82,7 @@ export function EditorPanel<T>({
         </Button>
       }
       className={className}
-      contentClassName={contentClassName}
+      contentClassName={resolvedContentClassName}
     >
       {showRawJson ? (
         <JsonPanel

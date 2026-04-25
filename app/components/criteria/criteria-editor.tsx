@@ -40,7 +40,7 @@ function InListEditor({
   return (
     <div className="space-y-2">
       {values.map((value, index) => (
-        <div key={index} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
+        <div key={index} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
           <PrimitiveValueInput
             value={value}
             onChange={(nextValue) =>
@@ -78,7 +78,7 @@ function LogicalGroupEditor({
   return (
     <div className="space-y-2">
       {entries.map(([operator, operatorValue]) => (
-        <div key={operator} className="grid grid-cols-[3.5rem_minmax(0,1fr)_auto] gap-2">
+        <div key={operator} className="grid grid-cols-[4rem_minmax(0,1fr)_auto] items-start gap-2">
           <NativeSelect
             value={operator}
             onChange={(event) =>
@@ -93,10 +93,14 @@ function LogicalGroupEditor({
           </NativeSelect>
 
           {operator === 'in' ? (
-            <InListEditor
-              values={Array.isArray(operatorValue) ? operatorValue : [operatorValue as Primitive]}
-              onChange={(nextValues) => onChange(updateOperatorValue(value, operator, nextValues))}
-            />
+            <div className="min-w-0">
+              <InListEditor
+                values={Array.isArray(operatorValue) ? operatorValue : [operatorValue as Primitive]}
+                onChange={(nextValues) =>
+                  onChange(updateOperatorValue(value, operator, nextValues))
+                }
+              />
+            </div>
           ) : (
             <PrimitiveValueInput
               value={
@@ -139,7 +143,7 @@ function ConditionEditor({
   const operatorGroup = getOperatorGroup(value);
 
   return (
-    <div className="grid grid-cols-[4rem_minmax(0,1fr)] gap-2">
+    <div className="grid grid-cols-[4rem_minmax(0,1fr)] items-start gap-2">
       <NativeSelect
         value={selection}
         onChange={(event) =>
@@ -160,17 +164,21 @@ function ConditionEditor({
           placeholder="Value"
         />
       ) : selection === 'in' ? (
-        <InListEditor
-          values={Array.isArray(operatorGroup.in) ? operatorGroup.in : ['']}
-          onChange={(nextValues) => onChange({ in: nextValues })}
-        />
+        <div className="min-w-0">
+          <InListEditor
+            values={Array.isArray(operatorGroup.in) ? operatorGroup.in : ['']}
+            onChange={(nextValues) => onChange({ in: nextValues })}
+          />
+        </div>
       ) : selection === 'and' || selection === 'or' ? (
-        <LogicalGroupEditor
-          value={operatorGroup}
-          onChange={(nextGroup) =>
-            onChange(selection === 'and' ? { and: nextGroup } : { or: nextGroup })
-          }
-        />
+        <div className="min-w-0">
+          <LogicalGroupEditor
+            value={operatorGroup}
+            onChange={(nextGroup) =>
+              onChange(selection === 'and' ? { and: nextGroup } : { or: nextGroup })
+            }
+          />
+        </div>
       ) : (
         <PrimitiveValueInput
           value={(operatorGroup[selection] as Primitive | undefined) ?? ''}
@@ -205,7 +213,7 @@ export function CriteriaEditor({ value, onChange, onAddCriteria }: CriteriaEdito
             </Button>
 
             <div className="min-w-0">
-              <div className="space-y-2 lg:hidden">
+              <div className="grid min-w-0 gap-2.5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:items-start">
                 <Input
                   className="min-w-0"
                   value={path}
@@ -215,23 +223,6 @@ export function CriteriaEditor({ value, onChange, onAddCriteria }: CriteriaEdito
                   placeholder="Cart path"
                 />
 
-                <ConditionEditor
-                  value={condition}
-                  onChange={(nextCondition) =>
-                    onChange(renameCriterion(value, path, path, nextCondition))
-                  }
-                />
-              </div>
-
-              <div className="hidden min-w-0 items-start gap-2 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
-                <Input
-                  className="min-w-0"
-                  value={path}
-                  onChange={(event) =>
-                    onChange(renameCriterion(value, path, event.target.value, condition))
-                  }
-                  placeholder="Cart path"
-                />
                 <div className="min-w-0">
                   <ConditionEditor
                     value={condition}

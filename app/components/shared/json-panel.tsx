@@ -23,7 +23,7 @@ export function JsonPanel({ title, value, error, onChange }: JsonPanelProps) {
       />
       <div
         id={descriptionId}
-        className={error ? 'text-sm text-destructive' : 'text-sm text-muted-foreground'}
+        className={error ? 'text-xs text-destructive sm:text-sm' : 'text-xs text-muted-foreground sm:text-sm'}
       >
         {error ?? 'Changes apply as soon as the JSON is valid.'}
       </div>

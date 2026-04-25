@@ -60,12 +60,10 @@ describe('App', () => {
       const criteriaPanel = getPanelByTitle('Criteria');
 
       await user.click(within(criteriaPanel).getByRole('button', { name: 'Add criteria' }));
-      expect(within(criteriaPanel).getAllByDisplayValue('field').length).toBeGreaterThan(0);
+      expect(within(criteriaPanel).getByDisplayValue('field')).toBeTruthy();
 
-      await user.click(
-        within(criteriaPanel).getAllByRole('button', { name: 'Remove criterion field' })[0],
-      );
-      expect(within(criteriaPanel).queryAllByDisplayValue('field')).toHaveLength(0);
+      await user.click(within(criteriaPanel).getByRole('button', { name: 'Remove criterion field' }));
+      expect(within(criteriaPanel).queryByDisplayValue('field')).toBeNull();
     });
 
     it('updates eligibility when cart data changes', async () => {
@@ -100,8 +98,7 @@ describe('App', () => {
       expect(document.activeElement).toBe(cartFieldNameInput);
 
       const criteriaPanel = getPanelByTitle('Criteria');
-      const criteriaPathInputs = within(criteriaPanel).getAllByDisplayValue('shopperId');
-      const criteriaPathInput = criteriaPathInputs[0];
+      const criteriaPathInput = within(criteriaPanel).getByDisplayValue('shopperId');
 
       await user.click(criteriaPathInput);
       await user.type(criteriaPathInput, 'X');

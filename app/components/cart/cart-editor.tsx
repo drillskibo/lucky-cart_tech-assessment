@@ -69,7 +69,7 @@ function ProductEditor({
   onRemove: () => void;
 }) {
   return (
-      <Card className="border-dashed">
+    <Card className="border-dashed">
       <CardHeader className="flex flex-row justify-end gap-3 space-y-0">
         <div className="flex flex-wrap items-center gap-2">
           <Button
@@ -85,7 +85,7 @@ function ProductEditor({
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="space-y-5 md:space-y-3">
+      <CardContent className="space-y-3">
         {Object.entries(product).map(([key, rawValue], fieldIndex) => (
           <ObjectFieldRow
             key={`${index}-${fieldIndex}`}
@@ -108,13 +108,13 @@ export function CartEditor({ value, onChange, onAddField }: CartEditorProps) {
   const products = value.products ?? [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex justify-end">
         <Button variant="outline" size="sm" onClick={onAddField}>
           Add field
         </Button>
       </div>
-      <div className="space-y-5 md:space-y-3">
+      <div className="space-y-3">
         {Object.entries(fields).map(([key, rawValue], fieldIndex) => (
           <ObjectFieldRow
             key={fieldIndex}
@@ -136,7 +136,7 @@ export function CartEditor({ value, onChange, onAddField }: CartEditorProps) {
         ))}
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <CardTitle className="text-base">Products</CardTitle>
           <Button
@@ -153,7 +153,7 @@ export function CartEditor({ value, onChange, onAddField }: CartEditorProps) {
           </Button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {products.map((product, index) => (
             <ProductEditor
               key={index}
