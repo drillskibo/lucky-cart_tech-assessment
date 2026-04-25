@@ -1,6 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { EligibilityService } from '../src/eligibility.service';
-import type { Cart, Criteria } from '../src/types';
+
+import { CartPanel } from '@/components/cart/cart-panel';
+import { CriteriaPanel } from '@/components/criteria/criteria-panel';
+import { Logo } from '@/components/shared/logo';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+
+import { EligibilityService } from '@src/eligibility.service';
+
 import { loadDefaultCart, loadDefaultCriteria } from './fixtures';
 import {
   loadInitialCart,
@@ -10,12 +18,7 @@ import {
   saveCriteria,
 } from './persistence';
 
-import { CartPanel } from '@/components/cart/cart-panel';
-import { CriteriaPanel } from '@/components/criteria/criteria-panel';
-import { Logo } from '@/components/shared/logo';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Cart, Criteria } from '@src/types';
 
 const service = new EligibilityService();
 

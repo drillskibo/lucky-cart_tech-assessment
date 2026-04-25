@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import globals from 'globals';
+import importPlugin from 'eslint-plugin-import';
 import reactHooks from 'eslint-plugin-react-hooks';
 import tailwindcss from 'eslint-plugin-tailwindcss';
 import tseslint from 'typescript-eslint';
@@ -16,6 +17,7 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
+    extends: [importPlugin.flatConfigs.recommended, importPlugin.flatConfigs.typescript],
     languageOptions: {
       parserOptions: {
         ecmaFeatures: {
@@ -28,12 +30,24 @@ export default tseslint.config(
       tailwindcss,
     },
     settings: {
+      'import/resolver': {
+        typescript: true,
+        node: true,
+      },
       tailwindcss: {
         cssConfigPath: `${rootDir}/app/styles.css`,
       },
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      'import/order': [
+        'warn',
+        {
+          alphabetize: { order: 'asc', caseInsensitive: true },
+          'newlines-between': 'always',
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'type'],
+        },
+      ],
       'tailwindcss/classnames-order': 'warn',
       'tailwindcss/no-contradicting-classname': 'error',
     },

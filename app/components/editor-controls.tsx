@@ -1,5 +1,6 @@
-import type { Primitive } from '@src/types';
 import { Input } from '@/components/ui/input';
+
+import type { Primitive } from '@src/types';
 
 type PrimitiveValueInputProps = {
   value: Primitive;

@@ -1,5 +1,6 @@
 import defaultCart from '../cart-test.json' with { type: 'json' };
 import defaultCriteria from '../criteria-test.json' with { type: 'json' };
+
 import type { Cart, Criteria } from '../src/types';
 
 function cloneJson<T>(value: T): T {

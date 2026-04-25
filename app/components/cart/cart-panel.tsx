@@ -1,7 +1,8 @@
-import type { Cart } from '@src/types';
 import { CartEditor } from '@/components/cart/cart-editor';
 import { getUniqueKey } from '@/components/editor-controls';
 import { EditorPanel } from '@/components/shared/editor-panel';
+
+import type { Cart } from '@src/types';
 
 type CartPanelProps = {
   value: Cart;

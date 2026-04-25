@@ -1,26 +1,28 @@
-import type { Criteria, CriteriaCondition, OperatorCondition, Primitive } from '@src/types';
 import { RiDeleteBinLine } from '@remixicon/react';
-import { PrimitiveValueInput } from '@/components/editor-controls';
+
 import {
+  type ConditionSelection,
+  type EditableOperator,
+  type OperatorGroup,
+  type OperatorValue,
   addNestedOperator,
   buildCondition,
   conditionChoices,
-  type ConditionSelection,
   getConditionSelection,
   getOperatorGroup,
-  type EditableOperator,
   operatorOptions,
   removeCriterion,
   removeOperator,
   renameCriterion,
   renameOperator,
-  type OperatorGroup,
-  type OperatorValue,
   updateOperatorValue,
 } from '@/components/criteria/criteria-editor-helpers';
+import { PrimitiveValueInput } from '@/components/editor-controls';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { NativeSelect } from '@/components/ui/native-select';
+
+import type { Criteria, CriteriaCondition, OperatorCondition, Primitive } from '@src/types';
 
 type CriteriaEditorProps = {
   value: Criteria;

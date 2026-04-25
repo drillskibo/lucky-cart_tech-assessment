@@ -1,7 +1,8 @@
-import type { Criteria } from '@src/types';
 import { CriteriaEditor } from '@/components/criteria/criteria-editor';
 import { getUniqueKey } from '@/components/editor-controls';
 import { EditorPanel } from '@/components/shared/editor-panel';
+
+import type { Criteria } from '@src/types';
 
 type CriteriaPanelProps = {
   value: Criteria;

@@ -1,9 +1,11 @@
-import type { Cart, JsonObject, Primitive } from '@src/types';
 import { RiDeleteBinLine } from '@remixicon/react';
+
 import { getUniqueKey } from '@/components/editor-controls';
 import { ObjectFieldRow } from '@/components/shared/object-field-row';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+import type { Cart, JsonObject, Primitive } from '@src/types';
 
 type CartEditorProps = {
   value: Cart;

@@ -1,8 +1,10 @@
-import type { Primitive } from '@src/types';
 import { RiDeleteBinLine } from '@remixicon/react';
+
 import { PrimitiveValueInput } from '@/components/editor-controls';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+
+import type { Primitive } from '@src/types';
 
 type ObjectFieldRowProps = {
   fieldKey: string;

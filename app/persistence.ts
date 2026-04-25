@@ -1,5 +1,6 @@
-import type { Cart, Criteria } from '@src/types';
 import { loadDefaultCart, loadDefaultCriteria } from './fixtures';
+
+import type { Cart, Criteria } from '@src/types';
 
 export const LOCAL_STORAGE_KEYS = {
   cart: 'lucky-cart.cart',
