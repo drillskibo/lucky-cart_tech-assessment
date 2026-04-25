@@ -165,6 +165,26 @@ describe('App', () => {
       });
       expect((resetCartJsonEditor as HTMLTextAreaElement).value).toContain('"cartId": "cart-id"');
     });
+
+    it('formats valid raw json on blur', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const cartPanel = getPanelByTitle('Cart');
+      await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
+
+      const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
+
+      fireEvent.change(cartJsonEditor, {
+        target: {
+          value: '{"cartId":"cart-id","shopperId":"shopper-id","products":[]}',
+        },
+      });
+
+      fireEvent.blur(cartJsonEditor);
+
+      expect((cartJsonEditor as HTMLTextAreaElement).value).toContain('"cartId": "cart-id"');
+    });
   });
 
   describe('persistence', () => {

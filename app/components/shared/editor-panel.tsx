@@ -73,6 +73,25 @@ export function EditorPanel<T>({
     }
   }
 
+  function handleRawValueBlur() {
+    if (rawError) {
+      return;
+    }
+
+    try {
+      const parsedValue = JSON.parse(rawValue) as unknown;
+
+      if (!isJsonObject(parsedValue)) {
+        return;
+      }
+
+      const formattedValue = formatJson(parsedValue);
+      setRawValue(formattedValue);
+    } catch {
+      // Ignore parse errors here; the change handler already owns the error state.
+    }
+  }
+
   const resolvedContentClassName = showRawJson ? 'flex min-h-0 flex-col' : contentClassName;
 
   return (
@@ -93,6 +112,7 @@ export function EditorPanel<T>({
           value={rawValue}
           error={rawError}
           onChange={handleRawValueChange}
+          onBlur={handleRawValueBlur}
         />
       ) : (
         editor

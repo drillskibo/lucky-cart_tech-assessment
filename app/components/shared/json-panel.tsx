@@ -5,9 +5,10 @@ type JsonPanelProps = {
   value: string;
   error?: string | null;
   onChange: (value: string) => void;
+  onBlur?: () => void;
 };
 
-export function JsonPanel({ title, value, error, onChange }: JsonPanelProps) {
+export function JsonPanel({ title, value, error, onChange, onBlur }: JsonPanelProps) {
   const descriptionId = `${title.toLowerCase()}-json-help`;
 
   return (
@@ -15,6 +16,7 @@ export function JsonPanel({ title, value, error, onChange }: JsonPanelProps) {
       <Textarea
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        onBlur={onBlur}
         className="h-full min-h-72 flex-1 font-mono text-xs leading-6"
         aria-label={`${title} JSON editor`}
         aria-invalid={error ? 'true' : 'false'}
