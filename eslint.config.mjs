@@ -4,6 +4,7 @@ import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactHooks from 'eslint-plugin-react-hooks';
+import testingLibrary from 'eslint-plugin-testing-library';
 import vitest from 'eslint-plugin-vitest';
 import tseslint from 'typescript-eslint';
 
@@ -74,10 +75,13 @@ export default tseslint.config(
   },
   {
     files: ['test/**/*.{ts,tsx}'],
+    ...testingLibrary.configs['flat/react'],
     plugins: {
+      ...testingLibrary.configs['flat/react'].plugins,
       vitest,
     },
     languageOptions: {
+      ...testingLibrary.configs['flat/react'].languageOptions,
       globals: {
         ...globals.node,
         ...vitest.environments.env.globals,
