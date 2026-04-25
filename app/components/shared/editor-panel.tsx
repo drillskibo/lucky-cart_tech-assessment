@@ -1,4 +1,4 @@
-import { startTransition, type ReactNode, useEffect, useRef, useState } from 'react';
+import { startTransition, type KeyboardEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { JsonPanel } from '@/components/shared/json-panel';
 import { Panel } from '@/components/shared/panel';
@@ -35,6 +35,7 @@ export function EditorPanel<T>({
   const [rawValue, setRawValue] = useState(() => formatJson(value));
   const [rawError, setRawError] = useState<string | null>(null);
   const lastChangeCameFromRawEditor = useRef(false);
+  const rawTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     if (lastChangeCameFromRawEditor.current) {
@@ -45,6 +46,14 @@ export function EditorPanel<T>({
     setRawValue(formatJson(value));
     setRawError(null);
   }, [value]);
+
+  useEffect(() => {
+    if (!showRawJson) {
+      return;
+    }
+
+    rawTextareaRef.current?.focus();
+  }, [showRawJson]);
 
   function handleToggleRawJson() {
     setRawValue(formatJson(value));
@@ -92,6 +101,15 @@ export function EditorPanel<T>({
     }
   }
 
+  function handleRawValueKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key !== 'Escape') {
+      return;
+    }
+
+    event.preventDefault();
+    setShowRawJson(false);
+  }
+
   const resolvedContentClassName = showRawJson ? 'flex min-h-0 flex-col' : contentClassName;
 
   return (
@@ -113,6 +131,8 @@ export function EditorPanel<T>({
           error={rawError}
           onChange={handleRawValueChange}
           onBlur={handleRawValueBlur}
+          onKeyDown={handleRawValueKeyDown}
+          textareaRef={rawTextareaRef}
         />
       ) : (
         editor

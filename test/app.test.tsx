@@ -121,6 +121,31 @@ describe('App', () => {
       expect(within(cartPanel).queryByRole('textbox', { name: 'Cart JSON editor' })).toBeNull();
     });
 
+    it('focuses the raw json editor when it opens', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const cartPanel = getPanelByTitle('Cart');
+      await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
+
+      const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
+      expect(document.activeElement).toBe(cartJsonEditor);
+    });
+
+    it('closes raw json mode when escape is pressed', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const cartPanel = getPanelByTitle('Cart');
+      await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
+
+      const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
+      await user.type(cartJsonEditor, '{Escape}');
+
+      expect(within(cartPanel).queryByRole('textbox', { name: 'Cart JSON editor' })).toBeNull();
+      expect(within(cartPanel).getByRole('button', { name: 'Raw JSON' })).toBeTruthy();
+    });
+
     it('updates the app when valid raw json is edited', async () => {
       const user = userEvent.setup();
       render(<App />);
