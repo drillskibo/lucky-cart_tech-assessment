@@ -246,5 +246,34 @@ describe('App', () => {
       const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
       expect((cartJsonEditor as HTMLTextAreaElement).value).toContain('"cartId": "cart-id"');
     });
+
+    it('resets cart and criteria independently', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const cartPanel = getPanelByTitle('Cart');
+      const cartIdKeyInput = within(cartPanel).getByDisplayValue('cartId');
+      const cartIdRow = cartIdKeyInput.closest('div.grid');
+
+      if (!(cartIdRow instanceof HTMLElement)) {
+        throw new Error('cartId row not found');
+      }
+
+      const cartIdInputs = within(cartIdRow).getAllByRole('textbox');
+      await user.clear(cartIdInputs[1]);
+      await user.type(cartIdInputs[1], 'changed-cart');
+
+      const criteriaPanel = getPanelByTitle('Criteria');
+      const criteriaPathInput = within(criteriaPanel).getByDisplayValue('shopperId');
+      await user.clear(criteriaPathInput);
+      await user.type(criteriaPathInput, 'changed-path');
+
+      await user.click(within(cartPanel).getByRole('button', { name: 'Reset cart' }));
+      expect(within(cartPanel).getByDisplayValue('cart-id')).toBeTruthy();
+      expect(within(criteriaPanel).getByDisplayValue('changed-path')).toBeTruthy();
+
+      await user.click(within(criteriaPanel).getByRole('button', { name: 'Reset criteria' }));
+      expect(within(criteriaPanel).getByDisplayValue('shopperId')).toBeTruthy();
+    });
   });
 });

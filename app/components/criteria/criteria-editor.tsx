@@ -27,7 +27,6 @@ import type { Criteria, CriteriaCondition, OperatorCondition, Primitive } from '
 type CriteriaEditorProps = {
   value: Criteria;
   onChange: (value: Criteria) => void;
-  onAddCriteria: () => void;
 };
 
 function InListEditor({
@@ -190,15 +189,9 @@ function ConditionEditor({
   );
 }
 
-export function CriteriaEditor({ value, onChange, onAddCriteria }: CriteriaEditorProps) {
+export function CriteriaEditor({ value, onChange }: CriteriaEditorProps) {
   return (
     <div className="space-y-3">
-      <div className="flex justify-end">
-        <Button variant="outline" size="sm" onClick={onAddCriteria}>
-          Add criteria
-        </Button>
-      </div>
-
       {Object.entries(value).map(([path, condition], index) => (
         <div key={index} className="rounded-lg border border-dashed p-3">
           <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2">

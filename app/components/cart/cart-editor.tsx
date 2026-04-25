@@ -10,7 +10,6 @@ import type { Cart, JsonObject, Primitive } from '@src/types';
 type CartEditorProps = {
   value: Cart;
   onChange: (value: Cart) => void;
-  onAddField: () => void;
 };
 
 function topLevelFields(cart: Cart): JsonObject {
@@ -103,17 +102,12 @@ function ProductEditor({
   );
 }
 
-export function CartEditor({ value, onChange, onAddField }: CartEditorProps) {
+export function CartEditor({ value, onChange }: CartEditorProps) {
   const fields = topLevelFields(value);
   const products = value.products ?? [];
 
   return (
     <div className="space-y-5">
-      <div className="flex justify-end">
-        <Button variant="outline" size="sm" onClick={onAddField}>
-          Add field
-        </Button>
-      </div>
       <div className="space-y-3">
         {Object.entries(fields).map(([key, rawValue], fieldIndex) => (
           <ObjectFieldRow

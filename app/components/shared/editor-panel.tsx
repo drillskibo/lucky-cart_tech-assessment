@@ -9,6 +9,7 @@ type EditorPanelProps<T> = {
   value: T;
   onChange: (value: T) => void;
   editor: ReactNode;
+  headerAction?: ReactNode;
   className?: string;
   contentClassName?: string;
 };
@@ -26,6 +27,7 @@ export function EditorPanel<T>({
   value,
   onChange,
   editor,
+  headerAction,
   className,
   contentClassName,
 }: EditorPanelProps<T>) {
@@ -81,6 +83,7 @@ export function EditorPanel<T>({
           {showRawJson ? 'Editor' : 'Raw JSON'}
         </Button>
       }
+      headerAction={headerAction}
       className={className}
       contentClassName={resolvedContentClassName}
     >
