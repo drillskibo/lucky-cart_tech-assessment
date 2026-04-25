@@ -69,9 +69,8 @@ function ProductEditor({
   onRemove: () => void;
 }) {
   return (
-    <Card className="border-dashed">
-      <CardHeader className="flex flex-row items-center justify-between gap-3 space-y-0">
-        <CardTitle className="text-base">Product {index + 1}</CardTitle>
+      <Card className="border-dashed">
+      <CardHeader className="flex flex-row justify-end gap-3 space-y-0">
         <div className="flex flex-wrap items-center gap-2">
           <Button
             variant="outline"

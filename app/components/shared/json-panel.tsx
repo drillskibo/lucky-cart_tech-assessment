@@ -1,11 +1,32 @@
+import { Textarea } from '@/components/ui/textarea';
+
 type JsonPanelProps = {
-  value: unknown;
+  title: string;
+  value: string;
+  error?: string | null;
+  onChange: (value: string) => void;
 };
 
-export function JsonPanel({ value }: JsonPanelProps) {
+export function JsonPanel({ title, value, error, onChange }: JsonPanelProps) {
+  const descriptionId = `${title.toLowerCase()}-json-help`;
+
   return (
-    <pre className="overflow-x-auto rounded-lg border bg-muted/30 p-4 text-xs leading-6 text-foreground">
-      {JSON.stringify(value, null, 2)}
-    </pre>
+    <div className="flex h-full min-h-0 flex-col gap-3">
+      <Textarea
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="h-full min-h-72 flex-1 font-mono text-xs leading-6"
+        aria-label={`${title} JSON editor`}
+        aria-invalid={error ? 'true' : 'false'}
+        aria-describedby={descriptionId}
+        spellCheck={false}
+      />
+      <div
+        id={descriptionId}
+        className={error ? 'text-sm text-destructive' : 'text-sm text-muted-foreground'}
+      >
+        {error ?? 'Changes apply as soon as the JSON is valid.'}
+      </div>
+    </div>
   );
 }

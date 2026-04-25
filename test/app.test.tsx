@@ -1,4 +1,4 @@
-import { cleanup, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -117,10 +117,56 @@ describe('App', () => {
       const cartPanel = getPanelByTitle('Cart');
 
       await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
-      expect(within(cartPanel).getByText(/"cartId": "cart-id"/)).toBeTruthy();
+      const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
+      expect((cartJsonEditor as HTMLTextAreaElement).value).toContain('"cartId": "cart-id"');
 
       await user.click(within(cartPanel).getByRole('button', { name: 'Editor' }));
-      expect(within(cartPanel).queryByText(/"cartId": "cart-id"/)).toBeNull();
+      expect(within(cartPanel).queryByRole('textbox', { name: 'Cart JSON editor' })).toBeNull();
+    });
+
+    it('updates the app when valid raw json is edited', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const cartPanel = getPanelByTitle('Cart');
+      await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
+
+      const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
+
+      fireEvent.change(cartJsonEditor, {
+        target: {
+          value:
+            '{\n  "cartId": "cart-id",\n  "shopperId": "different-shopper",\n  "products": []\n}',
+        },
+      });
+
+      expect(screen.getByTestId('eligibility-result').textContent).toContain('Not eligible');
+    });
+
+    it('shows a validation error without overwriting the current state', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const cartPanel = getPanelByTitle('Cart');
+      await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
+
+      const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
+
+      fireEvent.change(cartJsonEditor, {
+        target: {
+          value: '{',
+        },
+      });
+
+      expect(within(cartPanel).getByText('JSON is invalid.')).toBeTruthy();
+      expect(screen.getByTestId('eligibility-result').textContent).toContain('Eligible');
+
+      await user.click(within(cartPanel).getByRole('button', { name: 'Editor' }));
+      await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
+      const resetCartJsonEditor = within(cartPanel).getByRole('textbox', {
+        name: 'Cart JSON editor',
+      });
+      expect((resetCartJsonEditor as HTMLTextAreaElement).value).toContain('"cartId": "cart-id"');
     });
   });
 
@@ -132,7 +178,8 @@ describe('App', () => {
       const cartPanel = getPanelByTitle('Cart');
       await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
 
-      expect(within(cartPanel).getByText(/"cartId": "cart-id"/)).toBeTruthy();
+      const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
+      expect((cartJsonEditor as HTMLTextAreaElement).value).toContain('"cartId": "cart-id"');
     });
 
     it('prefers stored cart and criteria values when localStorage is populated', async () => {
@@ -157,11 +204,17 @@ describe('App', () => {
 
       const cartPanel = getPanelByTitle('Cart');
       await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
-      expect(within(cartPanel).getByText(/"cartId": "stored-cart"/)).toBeTruthy();
+      const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
+      expect((cartJsonEditor as HTMLTextAreaElement).value).toContain('"cartId": "stored-cart"');
 
       const criteriaPanel = getPanelByTitle('Criteria');
       await user.click(within(criteriaPanel).getByRole('button', { name: 'Raw JSON' }));
-      expect(within(criteriaPanel).getByText(/"shopperId": "stored-shopper"/)).toBeTruthy();
+      const criteriaJsonEditor = within(criteriaPanel).getByRole('textbox', {
+        name: 'Criteria JSON editor',
+      });
+      expect((criteriaJsonEditor as HTMLTextAreaElement).value).toContain(
+        '"shopperId": "stored-shopper"',
+      );
     });
 
     it('resets persisted data back to defaults without touching unrelated keys', async () => {
@@ -193,7 +246,8 @@ describe('App', () => {
 
       const cartPanel = getPanelByTitle('Cart');
       await user.click(within(cartPanel).getByRole('button', { name: 'Raw JSON' }));
-      expect(within(cartPanel).getByText(/"cartId": "cart-id"/)).toBeTruthy();
+      const cartJsonEditor = within(cartPanel).getByRole('textbox', { name: 'Cart JSON editor' });
+      expect((cartJsonEditor as HTMLTextAreaElement).value).toContain('"cartId": "cart-id"');
     });
   });
 });

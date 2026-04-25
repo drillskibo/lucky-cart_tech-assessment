@@ -22,6 +22,7 @@ export function CriteriaPanel({ value, onChange }: CriteriaPanelProps) {
     <EditorPanel
       title="Criteria"
       value={value}
+      onChange={onChange}
       editor={<CriteriaEditor value={value} onChange={onChange} onAddCriteria={handleAddCriteria} />}
       className="h-full"
       contentClassName="space-y-4"

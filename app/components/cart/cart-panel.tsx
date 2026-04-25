@@ -22,6 +22,7 @@ export function CartPanel({ value, onChange }: CartPanelProps) {
     <EditorPanel
       title="Cart"
       value={value}
+      onChange={onChange}
       editor={<CartEditor value={value} onChange={onChange} onAddField={handleAddField} />}
       className="h-full"
       contentClassName="space-y-6"
