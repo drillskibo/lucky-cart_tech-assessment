@@ -1,5 +1,8 @@
 # Lucky Cart – Technical Assessment
 
+> [!NOTE]
+This website is live at https://lucky-cart.drillskibo.com/
+
 In this assessment, you have to calculate cart eligibility to a campaign. To do so, you have to compare criteria with cart data.
 
 ## How to do the assessment
